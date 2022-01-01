@@ -1,0 +1,40 @@
+[tool.black]
+line-length = 120
+target-version = ['py39']
+
+[tool.isort]
+# line length is handled by black
+line_length = 120
+multi_line_output = 3
+profile = "black"
+
+[tool.mypy]
+plugins = [
+    "pydantic.mypy",
+ ]
+
+strict = true
+# https://github.com/python/mypy/issues/9374
+#check_untyped_defs = true
+#disallow_any_generics = true
+#disallow_untyped_defs = true
+#follow_imports = "silent"
+#warn_redundant_casts = true
+#warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = [
+ ]
+ignore_missing_imports = true
+
+
+[tool.pylint.BASIC]
+good-names = ["i", "n", "v", "ex", "db"]
+
+
+[tool.pylint.'MESSAGES CONTROL']
+# pydantic -- https://github.com/samuelcolvin/pydantic/issues/1961
+extension-pkg-whitelist = "pydantic"
+# line length is handled by black
+max-line-length = 120
+disable = "line-too-long, duplicate-code"
