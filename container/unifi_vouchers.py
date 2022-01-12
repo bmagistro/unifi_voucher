@@ -34,6 +34,21 @@ env_mongo_port: int = int(os.environ.get("MONGO_PORT", 27017))
 env_mongo_db: str = os.environ.get("MONGO_DB", "")
 
 
+def gen_timestamp() -> int:
+    """
+    Returns the current timestamp in seconds
+    """
+    return int(datetime.datetime.utcnow().strftime("%s"))
+
+
+def gen_code() -> str:
+    """
+    Returns a random number between 0 and 9999999999
+    """
+    # pylint suggests using an f-string but not sure how to do this
+    return "{0:0<10}".format(random.randint(0, 9999999999))  # pylint: disable=C0209
+
+
 class VoucherBase(pydantic.BaseModel):
     """
     Base pydantic model for a `voucher`
@@ -66,9 +81,9 @@ class VoucherBase(pydantic.BaseModel):
     """
 
     site_id: typing.Optional[str]
-    create_time: int = int(datetime.datetime.utcnow().strftime("%s"))
-    # pylint suggests using an f-string but not sure how to do this without an interim variable
-    code: str = "{0:0<10}".format(random.randint(0, 9999999999))  # pylint: disable=C0209
+    # These need to be dynamic values, so we need to use a callable, see pydantic #866
+    create_time: int = pydantic.Field(default_factory=gen_timestamp)
+    code: str = pydantic.Field(default_factory=gen_code)
     for_hotspot: bool = False
     admin_name: str = env_admin_name
     quota: int = 1
