@@ -1,0 +1,8 @@
+GPIO_BTN = 24
+GPIO_LED = 22
+BTN_BOUNCE_MS = 1500
+DEV_LPR = "/dev/usb/lp0"
+LOGO_PATH = ""
+VOUCHER_URL = ""
+SSID = ""
+SSID_PASS = ""

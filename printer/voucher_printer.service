@@ -1,0 +1,13 @@
+[Unit]
+Description=Voucher Printer
+After=network.target network-online.target
+Wants=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/guest_voucher
+KillSignal=SIGINT
+ExecStart=/usr/bin/python3 -u /opt/guest_voucher/voucher_printer.py
+
+[Install]
+WantedBy=multi-user.target
